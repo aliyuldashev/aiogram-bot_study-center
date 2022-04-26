@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import BigFieald,SecandField,VideoLessans
+from .models import FirstField,SecandField,LastField,Post
 # Register your models here.
-admin.site.register(BigFieald)
+admin.site.register(FirstField)
 admin.site.register(SecandField)
-admin.site.register(VideoLessans)
+admin.site.register(LastField)
+admin.site.register(Post)

@@ -6,7 +6,8 @@ class start_s(StatesGroup):
 class States(StatesGroup):
     big_state = State()
     sec_state = State()
-    vid_state = State()
+    last = State()
+    send = State()
 class Test_state(StatesGroup):
     name = State()
     test = State()

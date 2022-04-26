@@ -6,7 +6,8 @@ from aiogram.dispatcher import FSMContext
 from .keyboard import inlin_k,cal,admin
 from loader import db as dp
 from loader import bot
-from state.state import start_s, Admin
+from state.state import start_s, Admin, States
+from keyboards.inline import inline_key
 # kurslar
 global users
 users = ['1999579475']
@@ -37,9 +38,9 @@ async def start(msg:types.Message,state: FSMContext):
     data = await state.get_data()
     print(data, users, msg.chat.id)
     if len(data)>0 and str(msg.chat.id) in users:
-        markup = await default_key.start()
+        markup = await inline_key.big_in()
         await bot.send_message(msg.chat.id, 'NIMA KERAGLIGINI TANLANG!', reply_markup=markup)
-        await start_s.start.set()
+        await States.big_state.set()
     elif msg.chat.id in admins:
         markup = await admin()
         await bot.send_message(msg.chat.id,'Malumot kelishini kuting',reply_markup=markup)
@@ -59,7 +60,7 @@ async def ism(msg:types.Message, state: FSMContext):
     markup = await admin()
     try:
         for user in users:
-            await bot.send_message(user,msg.text, reply_markup='html')
+            await bot.send_message(user,msg.parse_entities(as_html=True), reply_markup=msg.reply_markup)
     except Exception as ex:
         print(ex)
     await msg.reply('Elon yuborildi',reply_markup=markup)
@@ -70,6 +71,7 @@ async def ism(msg:types.Message, state: FSMContext):
     for i in KURS:
         tugma_b = KeyboardButton(text=i)
         k_tugma.insert(tugma_b)
+
     ism = msg.text
     await state.update_data(
         {'ism':ism}
